@@ -83,7 +83,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
 extension ViewController: UICollectionViewDataSource{
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
-        cell.backgroundColor = .systemYellow
+        //cell.backgroundColor = .white
         
         let farmValue = dataReceivedFromAPI?.photos.photo[indexPath.row].farm ?? 0
         let serverValue = dataReceivedFromAPI?.photos.photo[indexPath.row].server ?? ""
@@ -111,7 +111,7 @@ extension ViewController: UICollectionViewDataSource{
 // WIDTH AND HEIGHT OF THE CELLS IN THE COLLECTION VIEW
 extension ViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 394, height: 150)
+        return CGSize(width: 394, height: 200)
     }
 }
 

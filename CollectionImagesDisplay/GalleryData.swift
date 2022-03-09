@@ -15,9 +15,17 @@ struct GalleryData: Decodable{
 struct photos: Decodable{
     let page: Int
     let pages: Int
-    let perpage: Int
+    let perPage: Int
     let total: Int
     let photo: [photo]
+    
+    enum CodingKeys: String, CodingKey{
+        case page
+        case pages
+        case perPage = "perpage"
+        case total
+        case photo
+    }
 }
 
 struct photo: Decodable{
@@ -27,8 +35,20 @@ struct photo: Decodable{
     let server: String
     let farm: Int
     let title: String
-    let ispublic: Int
-    let isfriend: Int
-    let isfamily: Int
+    let isPublic: Int
+    let isFriend: Int
+    let isFamily: Int
+    
+    enum CodingKeys: String, CodingKey{
+        case id
+        case owner
+        case secret
+        case server
+        case farm
+        case title
+        case isPublic = "ispublic"
+        case isFriend = "isfriend"
+        case isFamily = "isfamily"
+    }
 
 }
