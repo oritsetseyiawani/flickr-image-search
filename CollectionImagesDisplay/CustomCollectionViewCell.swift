@@ -9,8 +9,6 @@ import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
-   // let receivedImage: UIImage?
-    
     @IBOutlet weak var imageReceived: UIImageView!
     
 }
