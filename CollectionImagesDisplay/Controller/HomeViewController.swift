@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDelegate {
+class HomeViewController: UIViewController, UICollectionViewDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -80,7 +80,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
 
 
 // COLLECTION VIEW DATA SOURCE
-extension ViewController: UICollectionViewDataSource{
+extension HomeViewController: UICollectionViewDataSource{
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as! CustomCollectionViewCell
         //cell.backgroundColor = .white
@@ -109,7 +109,7 @@ extension ViewController: UICollectionViewDataSource{
 
 
 // WIDTH AND HEIGHT OF THE CELLS IN THE COLLECTION VIEW
-extension ViewController: UICollectionViewDelegateFlowLayout{
+extension HomeViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 394, height: 200)
     }
@@ -118,7 +118,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout{
 
 
 // DID SELECT ITEM AT
-extension ViewController{
+extension HomeViewController{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath)
         print(dataReceivedFromAPI?.photos.photo[indexPath.row])
