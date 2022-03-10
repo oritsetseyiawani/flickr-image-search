@@ -20,9 +20,6 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pFc-6e-jaw">
                                 <rect key="frame" x="10" y="141" width="394" height="721"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="721" id="Ift-Q9-A5m"/>
-                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="YV9-Ev-3b0">
                                     <size key="itemSize" width="394" height="150"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -80,14 +77,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="QjL-k3-OM9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0Tf-Lp-d2x"/>
-                            <constraint firstItem="APQ-Ea-2bR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1FD-PY-ApB"/>
                             <constraint firstItem="APQ-Ea-2bR" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="1Ja-Gi-1B1"/>
                             <constraint firstItem="pFc-6e-jaw" firstAttribute="top" secondItem="APQ-Ea-2bR" secondAttribute="bottom" id="47J-Sm-3gP"/>
-                            <constraint firstItem="pFc-6e-jaw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="54A-RF-XUc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Xgz-XU-lyf" secondAttribute="trailing" constant="20" id="9Q0-rP-fM8"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pFc-6e-jaw" secondAttribute="trailing" constant="10" id="Av5-75-IhC"/>
                             <constraint firstItem="pFc-6e-jaw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="GFA-cQ-CC9"/>
                             <constraint firstItem="APQ-Ea-2bR" firstAttribute="top" secondItem="QjL-k3-OM9" secondAttribute="bottom" constant="10" id="RKo-5H-0GB"/>
+                            <constraint firstItem="pFc-6e-jaw" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="c2U-kO-vYy"/>
                             <constraint firstItem="QjL-k3-OM9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="dXR-DQ-iTi"/>
                             <constraint firstItem="APQ-Ea-2bR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hD6-km-MCI"/>
                             <constraint firstItem="Xgz-XU-lyf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="zbS-yF-rLy"/>
