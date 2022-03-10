@@ -11,7 +11,6 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var searchBtn: UIButton!
     
     // URL FOR REQUESTS ON FLICKR API THAT RETURNS JSON LIST
     let url = "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=b4ab67c03f26226651e6d4ec29824a44&format=json&nojsoncallback=1&tags="
@@ -22,6 +21,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.collectionViewLayout = UICollectionViewFlowLayout()
+        searchBar.delegate = self
     }
     
     
@@ -63,18 +63,6 @@ class ViewController: UIViewController, UICollectionViewDelegate {
         }
         
     }
-    
-    
-
-    @IBAction func searchBtnPressed(_ sender: Any) {
-        print(searchBar.text ?? "No text")
-        let textEntered = searchBar.text ?? ""
-        let requestUrl = "\(url)\(textEntered)"
-        print(requestUrl)
-        performRequest(requestUrl: requestUrl)
-        searchBar.text = ""
-    }
-    
 }
 
 
@@ -123,8 +111,25 @@ extension ViewController{
         print(indexPath)
         print(dataReceivedFromAPI?.photos.photo[indexPath.row])
     }
+    
+//    searchBar.isSearchResultsButtonSelected
 }
 
+extension ViewController: UISearchBarDelegate{
+ 
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print(searchBar.text ?? "No text")
+        let textEntered = searchBar.text ?? ""
+        let requestUrl = "\(url)\(textEntered)"
+        print(requestUrl)
+        performRequest(requestUrl: requestUrl)
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+    
+
+    
+}
 
 // TO LOAD IMAGE
 extension UIImageView{
