@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Lpj-qH-6EW">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Image Finder-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="CollectionImagesDisplay" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,8 +17,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xgz-XU-lyf">
+                                <rect key="frame" x="325" y="93" width="69" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Search"/>
+                                <connections>
+                                    <action selector="searchBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rkv-sk-kAe"/>
+                                </connections>
+                            </button>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="APQ-Ea-2bR">
+                                <rect key="frame" x="0.0" y="128" width="414" height="51"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="pFc-6e-jaw">
-                                <rect key="frame" x="10" y="141" width="394" height="721"/>
+                                <rect key="frame" x="10" y="179" width="394" height="721"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="721" id="Ift-Q9-A5m"/>
@@ -57,42 +69,22 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="APQ-Ea-2bR">
-                                <rect key="frame" x="0.0" y="90" width="414" height="51"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Image Finder" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QjL-k3-OM9">
-                                <rect key="frame" x="154" y="59" width="106.5" height="21"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xgz-XU-lyf">
-                                <rect key="frame" x="325" y="54" width="69" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Search"/>
-                                <connections>
-                                    <action selector="searchBtnPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Rkv-sk-kAe"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="QjL-k3-OM9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="0Tf-Lp-d2x"/>
-                            <constraint firstItem="APQ-Ea-2bR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1FD-PY-ApB"/>
                             <constraint firstItem="APQ-Ea-2bR" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="1Ja-Gi-1B1"/>
                             <constraint firstItem="pFc-6e-jaw" firstAttribute="top" secondItem="APQ-Ea-2bR" secondAttribute="bottom" id="47J-Sm-3gP"/>
                             <constraint firstItem="pFc-6e-jaw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="54A-RF-XUc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Xgz-XU-lyf" secondAttribute="trailing" constant="20" id="9Q0-rP-fM8"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pFc-6e-jaw" secondAttribute="trailing" constant="10" id="Av5-75-IhC"/>
                             <constraint firstItem="pFc-6e-jaw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="GFA-cQ-CC9"/>
-                            <constraint firstItem="APQ-Ea-2bR" firstAttribute="top" secondItem="QjL-k3-OM9" secondAttribute="bottom" constant="10" id="RKo-5H-0GB"/>
-                            <constraint firstItem="QjL-k3-OM9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="dXR-DQ-iTi"/>
                             <constraint firstItem="APQ-Ea-2bR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hD6-km-MCI"/>
-                            <constraint firstItem="Xgz-XU-lyf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="zbS-yF-rLy"/>
+                            <constraint firstItem="APQ-Ea-2bR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="40" id="idb-oe-6eP"/>
+                            <constraint firstItem="Xgz-XU-lyf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="5" id="zbS-yF-rLy"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Image Finder" id="EuX-RR-6kq"/>
                     <connections>
                         <outlet property="collectionView" destination="pFc-6e-jaw" id="hz3-uO-1Kk"/>
                         <outlet property="searchBar" destination="APQ-Ea-2bR" id="bCp-ni-zMw"/>
@@ -101,7 +93,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-836" y="-65"/>
+            <point key="canvasLocation" x="73.913043478260875" y="-65.625"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="8KP-mN-5Ss">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Lpj-qH-6EW" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AKL-Kn-5Oe">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="VhA-2v-fHj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NfC-yj-UFO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-836.23188405797111" y="-65.625"/>
         </scene>
     </scenes>
     <resources>

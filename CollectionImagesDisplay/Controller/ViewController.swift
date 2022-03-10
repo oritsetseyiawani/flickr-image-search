@@ -25,6 +25,7 @@ class ViewController: UIViewController, UICollectionViewDelegate {
     }
     
     
+    
     func performRequest(requestUrl: String){
         let urlSession = URLSession.shared
         guard let url = URL(string: requestUrl)
