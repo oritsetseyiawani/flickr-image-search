@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UICollectionViewDelegate {
+class ViewController: UIViewController{
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -118,7 +118,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout{
 
 
 // DID SELECT ITEM AT
-extension ViewController{
+extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath)
         print(dataReceivedFromAPI?.photos.photo[indexPath.row])
