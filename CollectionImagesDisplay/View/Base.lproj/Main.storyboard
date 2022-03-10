@@ -57,7 +57,7 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="APQ-Ea-2bR">
+                            <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="APQ-Ea-2bR">
                                 <rect key="frame" x="0.0" y="90" width="414" height="51"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
