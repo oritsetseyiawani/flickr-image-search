@@ -6,75 +6,29 @@
 //
 
 import UIKit
+protocol ViewControllerType: AnyObject{
+    func dataReceivedFromAPINetwork(safeData: GalleryData)
+}
 
 class ViewController: UIViewController, UICollectionViewDelegate {
     
+    weak var delegate: ViewControllerType?
+    var dataReceivedFromAPI: GalleryData?
+    let networkManager = NetworkManager()
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var searchBtn: UIButton!
     
     // URL FOR REQUESTS ON FLICKR API THAT RETURNS JSON LIST
     let url = "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=b4ab67c03f26226651e6d4ec29824a44&format=json&nojsoncallback=1&tags="
-    var dataReceivedFromAPI: GalleryData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.collectionViewLayout = UICollectionViewFlowLayout()
+        searchBar.delegate = self
+        networkManager.delegate = self
     }
-    
-    
-    func performRequest(requestUrl: String){
-        let urlSession = URLSession.shared
-        guard let url = URL(string: requestUrl)
-        else{
-            return
-        }
-        
-       let dataTask = urlSession.dataTask(with: url) { data, response, error in
-            
-           if error != nil {
-               print(error!)
-               return
-           }
-           if let safeData = data {
-               print(safeData)
-               self.parseJSON(galleryData: safeData)
-               
-           }
-        }
-        dataTask.resume()
-    }
-    
-    // FUNCTION TO HANDLE PARSING OF DATA
-    func parseJSON(galleryData: Data){
-        let decoder = JSONDecoder()
-        do{
-            let decodedData = try decoder.decode(GalleryData.self, from: galleryData)
-            dataReceivedFromAPI = decodedData
-            
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-            
-        } catch {
-            print (error)
-        }
-        
-    }
-    
-    
-
-    @IBAction func searchBtnPressed(_ sender: Any) {
-        print(searchBar.text ?? "No text")
-        let textEntered = searchBar.text ?? ""
-        let requestUrl = "\(url)\(textEntered)"
-        print(requestUrl)
-        performRequest(requestUrl: requestUrl)
-        searchBar.text = ""
-    }
-    
 }
 
 
@@ -123,8 +77,26 @@ extension ViewController{
         print(indexPath)
         print(dataReceivedFromAPI?.photos.photo[indexPath.row])
     }
+    
+//    searchBar.isSearchResultsButtonSelected
 }
 
+extension ViewController: UISearchBarDelegate{
+ 
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print(searchBar.text ?? "No text")
+        let textEntered = searchBar.text ?? ""
+        let requestUrl = "\(url)\(textEntered)"
+        print(requestUrl)
+        networkManager.performRequest(requestUrl: requestUrl)
+//        performRequest(requestUrl: requestUrl)
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+    }
+    
+
+    
+}
 
 // TO LOAD IMAGE
 extension UIImageView{
@@ -143,6 +115,16 @@ extension UIImageView{
                     
                 }
             }
+        }
+    }
+}
+
+extension ViewController: ViewControllerType{
+    func dataReceivedFromAPINetwork(safeData: GalleryData) {
+        
+        dataReceivedFromAPI = safeData
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
 }
