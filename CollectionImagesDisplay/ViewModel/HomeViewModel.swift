@@ -22,7 +22,7 @@ protocol HomeViewModelType: AnyObject {
 
 class HomeViewModel: HomeViewModelType {
     var networkManager = NetworkManager()
-    var favoritesViewController = FavoritesViewController()
+//    var favoritesViewController = FavoritesViewController()
     var dataReceivedFromAPI: GalleryData?
     weak var delegate: HomeViewControllerType?
     //HERE IS WHERE I FACED MY ISSUE
@@ -57,7 +57,7 @@ class HomeViewModel: HomeViewModelType {
         newImage.secret = secretValue
         newImage.imageReturnedURL = imageReturnedURL
         imageArray.append(newImage)
-        favoritesViewController.imageArray = imageArray
+//        favoritesViewController.imageArray = imageArray
         saveItemsToCoreData()
     }
     
@@ -101,7 +101,7 @@ class HomeViewModel: HomeViewModelType {
         } catch  {
             print("Error retrieving file \(error)")
         }
-        favoritesViewController.imageArray = imageArray
+//        favoritesViewController.imageArray = imageArray
     }
     
     func getNumberOfItems() -> Int {

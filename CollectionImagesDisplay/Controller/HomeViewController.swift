@@ -28,8 +28,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate {
         collectionView.collectionViewLayout = UICollectionViewFlowLayout()
         searchBar.delegate = self
         homeViewModelType.loadItemsFromCoreData()
-        homeViewModelType.setContext(context: context)
-        
     }
     
     
