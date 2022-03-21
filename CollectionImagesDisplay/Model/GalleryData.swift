@@ -7,19 +7,19 @@
 
 import Foundation
 
-struct GalleryData: Decodable{
+struct GalleryData: Decodable {
     let photos: photos
     let stat: String
 }
 
-struct photos: Decodable{
+struct photos: Decodable {
     let page: Int
     let pages: Int
     let perPage: Int
     let total: Int
     let photo: [photo]
     
-    enum CodingKeys: String, CodingKey{
+    enum CodingKeys: String, CodingKey {
         case page
         case pages
         case perPage = "perpage"
@@ -28,7 +28,7 @@ struct photos: Decodable{
     }
 }
 
-struct photo: Decodable{
+struct photo: Decodable {
     let id: String
     let owner: String
     let secret: String
@@ -39,7 +39,7 @@ struct photo: Decodable{
     let isFriend: Int
     let isFamily: Int
     
-    enum CodingKeys: String, CodingKey{
+    enum CodingKeys: String, CodingKey {
         case id
         case owner
         case secret
