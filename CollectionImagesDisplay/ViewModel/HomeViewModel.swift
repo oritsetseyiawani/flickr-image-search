@@ -6,22 +6,30 @@
 //
 
 import Foundation
+// I AM AWARE THAT UIKit and SwiftUI are not supposed to be in the viewModel but i faced an issue on line 29 which i would explain, that's the only reason they got imported
+import UIKit
+import SwiftUI
+import CoreData
 
-protocol HomeViewModelType: AnyObject{
+protocol HomeViewModelType: AnyObject {
     func dataReceivedFromAPINetwork(safeData: GalleryData)
-    func informNetworkManagerToPerformRequest(textEntered: String, caller: ViewControllerType)
+    func informNetworkManagerToPerformRequest(textEntered: String, caller: HomeViewControllerType)
     func getImageUrl( indexPath:IndexPath) -> String
-    func saveDataReceived(safeData: GalleryData)
     func getNumberOfItems() -> Int
+    func loadItemsFromCoreData()
+    func itemWasTapped(indexPath: IndexPath)
 }
 
-class HomeViewModel: HomeViewModelType{
-    
-    let networkManager = NetworkManager()
+class HomeViewModel: HomeViewModelType {
+    var networkManager = NetworkManager()
+    var favoritesViewController = FavoritesViewController()
     var dataReceivedFromAPI: GalleryData?
-    weak var delegate: ViewControllerType?
+    weak var delegate: HomeViewControllerType?
+    //HERE IS WHERE I FACED MY ISSUE
+    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var imageArray = [Image]()
     var requestUrl = ""
-    
+ 
     // URL FOR REQUESTS ON FLICKR API THAT RETURNS JSON LIST
     let url = "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=b4ab67c03f26226651e6d4ec29824a44&format=json&nojsoncallback=1&tags="
     
@@ -30,7 +38,30 @@ class HomeViewModel: HomeViewModelType{
         return "\(url)\(textEntered)"
     }
     
-    func informNetworkManagerToPerformRequest(textEntered: String, caller: ViewControllerType)  {
+    func setContext(context: NSManagedObjectContext){
+        self.context = context
+    }
+    
+    //RUNS WHEN AN IMAGE WAS CLICKED ON THE HOME PAGE
+    func itemWasTapped(indexPath: IndexPath) {
+        let pathPrefix = dataReceivedFromAPI?.photos.photo[indexPath.row]
+        let farmValue = pathPrefix?.farm ?? 0
+        let serverValue = pathPrefix?.server ?? ""
+        let idValue = pathPrefix?.id ?? ""
+        let secretValue = pathPrefix?.secret ?? ""
+        let imageReturnedURL = "https://farm\(farmValue).staticflickr.com/\(serverValue)/\(idValue)_\(secretValue)_m.jpg"
+        let newImage = Image(context: context)
+        newImage.farm = Int32(farmValue)
+        newImage.server = serverValue
+        newImage.id = idValue
+        newImage.secret = secretValue
+        newImage.imageReturnedURL = imageReturnedURL
+        imageArray.append(newImage)
+        favoritesViewController.imageArray = imageArray
+        saveItemsToCoreData()
+    }
+    
+    func informNetworkManagerToPerformRequest(textEntered: String, caller: HomeViewControllerType) {
         networkManager.delegate = caller
         networkManager.performRequest(requestUrl: "\(url)\(textEntered)")
     }
@@ -51,10 +82,26 @@ class HomeViewModel: HomeViewModelType{
         return imageReturnedURL
     }
     
+    //SAVE TO CORE DATA
+    func saveItemsToCoreData() {
+        do {
+            try context.save()
+            print("Successfully saved to CoreData")
+        } catch  {
+            print("Error saving to CoreData \(error)")
+        }
+    }
     
-    func saveDataReceived(safeData: GalleryData)  {
-        dataReceivedFromAPI = safeData
-        print("Data was successfully saved in the model")
+    //FETCH DATA
+    func loadItemsFromCoreData() {
+        let request: NSFetchRequest<Image> = Image.fetchRequest()
+        do {
+            imageArray = try context.fetch(request)
+            print("Successfully fetched image array with \(imageArray.count) elements")
+        } catch  {
+            print("Error retrieving file \(error)")
+        }
+        favoritesViewController.imageArray = imageArray
     }
     
     func getNumberOfItems() -> Int {

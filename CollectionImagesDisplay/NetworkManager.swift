@@ -6,13 +6,19 @@
 //
 
 import Foundation
-class NetworkManager{
+
+protocol Networkable {
+    var delegate: HomeViewControllerType? {get set}
+    func performRequest(requestUrl: String)
+
+}
+class NetworkManager {
     
-    weak var delegate: ViewControllerType?
+    weak var delegate: HomeViewControllerType?
     
   
     
-    func performRequest(requestUrl: String){
+    func performRequest(requestUrl: String) {
         let urlSession = URLSession.shared
         guard let url = URL(string: requestUrl)
         else{
@@ -37,9 +43,9 @@ class NetworkManager{
     }
     
     // FUNCTION TO HANDLE PARSING OF DATA
-    func parseJSON(galleryData: Data){
+    func parseJSON(galleryData: Data) {
         let decoder = JSONDecoder()
-        do{
+        do {
             let decodedData = try decoder.decode(GalleryData.self, from: galleryData)
              let dataReceivedFromAPINetwork = decodedData
              self.delegate?.dataReceivedFromAPINetwork(safeData: dataReceivedFromAPINetwork)
