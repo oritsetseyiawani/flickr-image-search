@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 protocol HomeViewControllerType: AnyObject {
     func dataReceivedFromAPINetwork(safeData: GalleryData)
 }
@@ -17,35 +16,25 @@ class HomeViewController: UIViewController, UICollectionViewDelegate {
     let homeViewModelType:HomeViewModelType = HomeViewModel()
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
-    
-    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-    
+    var images:[Image] = []
     override func viewDidLoad() {
         super.viewDidLoad()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        images = Image.getImages(moc: appDelegate.persistentContainer.viewContext)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.collectionViewLayout = UICollectionViewFlowLayout()
         searchBar.delegate = self
-        homeViewModelType.loadItemsFromCoreData()
     }
-    
-    
-    
 }
-
-
 
 // COLLECTION VIEW DATA SOURCE
 extension HomeViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        
-        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCollectionViewCell", for: indexPath) as? CustomCollectionViewCell
         else {
             return UICollectionViewCell()
-
         }
         
         cell.imageReceived.load(urlString: homeViewModelType.getImageUrl(indexPath: indexPath))
@@ -59,8 +48,6 @@ extension HomeViewController: UICollectionViewDataSource {
     
 }
 
-
-
 // WIDTH AND HEIGHT OF THE CELLS IN THE COLLECTION VIEW
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -68,12 +55,14 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-
-
 // DID SELECT ITEM AT
 extension HomeViewController {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        homeViewModelType.itemWasTapped(indexPath: indexPath)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedObjectContext = appDelegate.persistentContainer.viewContext
+        homeViewModelType.itemWasTapped(indexPath: indexPath, moc: managedObjectContext)
+        appDelegate.saveContext()
+        
     }
 }
 
@@ -82,6 +71,7 @@ extension HomeViewController: UISearchBarDelegate {
         homeViewModelType.informNetworkManagerToPerformRequest(textEntered: searchBar.text ?? "", caller: self)
         searchBar.text = ""
         searchBar.resignFirstResponder()
+        collectionView.reloadData()
     }
 }
 
@@ -92,7 +82,7 @@ extension UIImageView {
         else{
             return
         }
-
+        
         DispatchQueue.global().async {
             if let data = try? Data(contentsOf: url){
                 if let image = UIImage(data: data){

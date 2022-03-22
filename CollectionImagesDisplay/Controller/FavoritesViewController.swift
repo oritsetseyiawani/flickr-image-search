@@ -6,17 +6,16 @@
 //
 
 import UIKit
-import CoreData
-
 class FavoritesViewController: UIViewController {
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     @IBOutlet weak var favoritesCollectionView: UICollectionView!
-    var imageArray = [Image]()
+    var imageArray:[Image] = []
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        imageArray = Image.getImages(moc: appDelegate.persistentContainer.viewContext)
         favoritesCollectionView.dataSource = self
         favoritesCollectionView.delegate = self
         favoritesCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
@@ -25,27 +24,18 @@ class FavoritesViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        loadItemsFromCoreDataIntoFavorites()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        imageArray = Image.getImages(moc: appDelegate.persistentContainer.viewContext)
         favoritesCollectionView.reloadData()
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        context.delete(imageArray[indexPath.row])
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        Image.deleteImage(indexPath: indexPath, moc: context, imageArray: imageArray)
         imageArray.remove(at: indexPath.row)
-        
-        saveItemsToCoreData()
+        appDelegate.saveContext()
         self.favoritesCollectionView.reloadData()
-        
-    }
-    
-    // SAVE TO CORE DATA
-    func saveItemsToCoreData() {
-        do {
-            try context.save()
-            print("Successfully saved to CoreData")
-        } catch  {
-            print("Error saving to CoreData \(error)")
-        }
         
     }
 }
@@ -73,16 +63,6 @@ extension FavoritesViewController: UICollectionViewDataSource{
         return cell
     }
     
-    //FETCH DATA
-    func loadItemsFromCoreDataIntoFavorites(){
-        let request: NSFetchRequest<Image> = Image.fetchRequest()
-        do {
-            imageArray = try context.fetch(request)
-            print("Successfully fetched image array in favorites with \(imageArray.count) elements")
-        } catch  {
-            print("Error retrieving file \(error)")
-        }
-    }
 }
 
 
